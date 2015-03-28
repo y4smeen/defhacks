@@ -19,11 +19,11 @@ def form():
         return render_template( "form.html" )
     else:
         city = request.form["city"]
-        state = request.form["state"]
+        #state = request.form["state"]
         near = request.form["near"]
         nearlist = near.split(",")
-        price = request.form["price"]
-        cityState = city + ", " + state
+        #price = request.form["price"]
+        cityState = city
         latLong = geo_loc(cityState)
         place =  findPlaces(latLong,nearlist)
         return render_template( "results.html",place = place )
