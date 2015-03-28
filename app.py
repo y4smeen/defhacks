@@ -1,4 +1,8 @@
 from flask import Flask, render_template, request
+import urllib2, urllib, json
+
+key = "AIzaSyDUiZxaQHftGIZ8CgOdF-V24EP1FLt4N1E"
+url = ""
 
 app = Flask(__name__)
 
@@ -19,11 +23,32 @@ def form():
         near = request.form["near"]
         nearlist = near.split(",")
         price = request.form["price"]
-        return render_template( "results.html", city=city, state=state, near=nearlist, price=price )
+        cityState = city + ", " + state
+        latLong = geo_loc(cityState)
+        return render_template( "results.html", loc = latLong, near=nearlist, price=price )
 
 @app.route( "/about" )
 def about():
     return render_template( "about.html" )    
+
+def geo_loc(location):
+#finds the longitude and latitude of a given location parameter using Google's Geocode API
+#return format is a dictionary with longitude and latitude as key
+    loc = urllib.quote_plus(location)
+    googleurl = "https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s" % (loc,key)
+    request = urllib2.urlopen(googleurl)
+    results = request.read()
+    gd = json.loads(results) #dictionary
+    result_dic = gd['results'][0] #dictionary which is the first element in the results list
+    geometry = result_dic['geometry'] #geometry is another dictionary
+    loc = geometry['location'] #yet another dictionary
+    retstr = str(loc["lat"])+","+str(loc["lng"])
+    return retstr
+
+
+
+
+
 
 if __name__ == "__main__":
 
