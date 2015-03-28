@@ -27,11 +27,13 @@
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
 <script type="text/javascript">
 var input1=document.getElementById('City');
-var input2=document.getElementById('City');
+var input2=document.getElementById('State');
 var options={componentRestrictions: {country: 'us'}};
 new google.maps.places.Autocomplete(input1, options);
 new google.maps.places.Autocomplete(input2, options);
 </script>
+</center>
+<center>
 <div class="pure-controls">
   <button type="submit" name="b" value="Search" class="pure-button
   pure-button-primary">Search</button>
