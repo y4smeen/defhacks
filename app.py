@@ -25,8 +25,8 @@ def form():
         price = request.form["price"]
         cityState = city + ", " + state
         latLong = geo_loc(cityState)
-        print findPlaces(latLong,nearlist)
-        return render_template( "results.html", loc = latLong, near=nearlist, price=price )
+        place =  findPlaces(latLong,nearlist)
+        return render_template( "results.html",place = place )
 
 @app.route( "/about" )
 def about():
@@ -59,20 +59,12 @@ def findPlaces(latLong,nearlist):
         gd = json.loads(results) #dictionary
         for place in gd['results']:
             ltemp.append(str(place['geometry']['location']['lat']) + "," + str(place['geometry']['location']['lng']))
-        # print ltemp
         for address in ltemp:
             placeurl = "https://maps.googleapis.com/maps/api/geocode/json?address=%s" % (address)
-            # print placeurl
             request = urllib2.urlopen(placeurl)
-
             results = request.read()
-            # print b
             gd1 = json.loads(results) #dictionary
-            # print gd1
             shortzip = gd1['results'][0]['address_components'][8]['short_name']
-            # [9]['short_name']
-            # print shortzip
-            # print "ITSEPJILFHDLKGHSDLKGHSDKLJ OVERHEKLRHAE"
             zipcode.append(shortzip)
 
         l.append(ltemp)
