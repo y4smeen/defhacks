@@ -25,6 +25,7 @@ def form():
         price = request.form["price"]
         cityState = city + ", " + state
         latLong = geo_loc(cityState)
+        print findPlaces(latLong,nearlist)
         return render_template( "results.html", loc = latLong, near=nearlist, price=price )
 
 @app.route( "/about" )
@@ -36,6 +37,7 @@ def geo_loc(location):
 #return format is a dictionary with longitude and latitude as key
     loc = urllib.quote_plus(location)
     googleurl = "https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s" % (loc,key)
+    print googleurl
     request = urllib2.urlopen(googleurl)
     results = request.read()
     gd = json.loads(results) #dictionary
@@ -45,7 +47,20 @@ def geo_loc(location):
     retstr = str(loc["lat"])+","+str(loc["lng"])
     return retstr
 
-
+def findPlaces(latLong,nearlist):
+    l = []
+    for keyword in nearlist:
+        ltemp = []
+        googleurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s&key=%s&radius=1000&keyword=%s" % (latLong,key,keyword)
+        print googleurl
+        request = urllib2.urlopen(googleurl)
+        results = request.read()
+        gd = json.loads(results) #dictionary
+        for place in gd['results']:
+            ltemp.append(place['vicinity'])
+        l.append(ltemp)
+    return l
+        
 
 
 
