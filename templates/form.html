@@ -1,15 +1,43 @@
 {% extends "base.html" %}
 {% block content %}
+<center>
+<h1>Search</h1>
 
-<form action="/" method="POST">
-  <center>
-  city: <input type="text" name="city"> <br>
-  state: <input type="text" name="state"> <br>
-  near (max:3 [,]): <input type="text" name="near"> <br>
-  <!-- distance: <input type="text" name="dist"> <br> -->
-  price: <input type="text" name="price"> <br>
-  <input type="submit" name="enter">
-  </center>
+<form action="/" class="pure-form pure-form-aligned" method="POST">
+<fieldset>
+<div class="pure-control-group">
+  <label for="city">City</label>
+  <input class="pure-input-2-3" id="city" placeholder="New York"
+  name="city">
+</div>
+<div class="pure-control-group">
+  <label for="State">State</label>
+  <input class="pure-input-2-3" id="state" placeholder="NY"
+  name="state">
+</div>
+<div class="pure-control-group">
+  <label for="near">Near</label>
+  <input class="pure-input-2-3" id="near" placeholder="Starbucks,Pizza,Fitness"
+  name="near">
+</div>
+<div class="pure-control-group">
+  <label for="price">Price Limit</label>
+  <input class="pure-input-2-3" id="price" placeholder="1000000"
+  name="price">
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+<script type="text/javascript">
+var input1=document.getElementById('City');
+var input2=document.getElementById('City');
+var options={componentRestrictions: {country: 'us'}};
+new google.maps.places.Autocomplete(input1, options);
+new google.maps.places.Autocomplete(input2, options);
+</script>
+<div class="pure-controls">
+  <button type="submit" name="b" value="Search" class="pure-button
+  pure-button-primary">Search</button>
+</div>
+</fieldset>
 </form>
-
+</center>
 {% endblock %}
