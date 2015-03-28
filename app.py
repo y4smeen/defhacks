@@ -30,14 +30,13 @@ def form():
 
 @app.route( "/about" )
 def about():
-    return render_template( "about.html" )    
+    return render_template( "about.html" )
 
 def geo_loc(location):
 #finds the longitude and latitude of a given location parameter using Google's Geocode API
 #return format is a dictionary with longitude and latitude as key
     loc = urllib.quote_plus(location)
     googleurl = "https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s" % (loc,key)
-    print googleurl
     request = urllib2.urlopen(googleurl)
     results = request.read()
     gd = json.loads(results) #dictionary
@@ -48,20 +47,49 @@ def geo_loc(location):
     return retstr
 
 def findPlaces(latLong,nearlist):
+
     l = []
+    zipcode = []
     for keyword in nearlist:
         ltemp = []
         googleurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s&key=%s&radius=1000&keyword=%s" % (latLong,key,keyword)
-        print googleurl
+        # print googleurl
         request = urllib2.urlopen(googleurl)
         results = request.read()
         gd = json.loads(results) #dictionary
         for place in gd['results']:
-            ltemp.append(place['vicinity'])
-        l.append(ltemp)
-    return l
-        
+            ltemp.append(str(place['geometry']['location']['lat']) + "," + str(place['geometry']['location']['lng']))
+        # print ltemp
+        for address in ltemp:
+            placeurl = "https://maps.googleapis.com/maps/api/geocode/json?address=%s" % (address)
+            # print placeurl
+            request = urllib2.urlopen(placeurl)
 
+            results = request.read()
+            # print b
+            gd1 = json.loads(results) #dictionary
+            # print gd1
+            shortzip = gd1['results'][0]['address_components'][8]['short_name']
+            # [9]['short_name']
+            # print shortzip
+            # print "ITSEPJILFHDLKGHSDLKGHSDKLJ OVERHEKLRHAE"
+            zipcode.append(shortzip)
+
+        l.append(ltemp)
+    return findMost(zipcode);
+
+def findMost(zipcode):
+    count = 0;
+    savecount = 0;
+    saveme = 0;
+    for i in zipcode:
+        for x in zipcode:
+            if i == x:
+                count+=1;
+        if count > savecount:
+            saveme = i
+        count = 0
+    return saveme
 
 
 
