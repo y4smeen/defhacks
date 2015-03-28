@@ -2,21 +2,28 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-@app.route( "/" )
-def index():
-    return render_template( "base.html")
+# @app.route( "/" )
+# def index():
+#     return render_template( "base.html")
 
-@app.route( "/robots" )
-def robots():
-    return render_template( "form.html" )
+# @app.route( "/search" )
+# def robots():
 
-@app.route( "/form", methods = ["GET", "POST"] )
+@app.route( "/", methods = ["GET", "POST"] )
 def form():
     if request.method == "GET":
-        return "pls get here from the form"
+        return render_template( "form.html" )
     else:
-        n = request.form["name"]
-        return "Hello "+ n
+        city = request.form["city"]
+        state = request.form["state"]
+        near = request.form["near"]
+        nearlist = near.split(",")
+        price = request.form["price"]
+        return render_template( "results.html", city=city, state=state, near=nearlist, price=price )
+
+@app.route( "/about" )
+def about():
+    return render_template( "about.html" )    
 
 if __name__ == "__main__":
 

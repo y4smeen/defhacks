@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form action="/" method="POST">
+  <center>
+  city: <input type="text" name="city"> <br>
+  state: <input type="text" name="state"> <br>
+  near (max:3 [,]): <input type="text" name="near"> <br>
+  <!-- distance: <input type="text" name="dist"> <br> -->
+  price: <input type="text" name="price"> <br>
+  <input type="submit" name="enter">
+  </center>
+</form>
+
+{% endblock %}
