@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request
 import urllib2, urllib, json,time
 
-key = "AIzaSyDUiZxaQHftGIZ8CgOdF-V24EP1FLt4N1E"
+key = "AIzaSyAcXE_nj31Hrj5EEhBz3vAXluEZ4ox-pLk"
+#token = "bMAwaXXybvZyuuRPNoNv"
 nextPage = ""
 app = Flask(__name__)
 
@@ -133,8 +134,6 @@ def findPriceHelper(price):
 
 def findBuyPrice(zipcode):
     buyurl = "https://www.quandl.com/api/v1/datasets/ZILLOW/MZIP_MEDIANSOLDPRICE_ALLHOMES_%s.json" % (zipcode)
-    print buyurl
-    print "BUY IT \n\n\n\n\n"
     gd1 = 0
     avgbuy = -1
     try:
