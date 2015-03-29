@@ -115,7 +115,7 @@ def findNext20(token,latLong,keyword):
 
 def findRentPrice(zipcode):
     renturl = "https://www.quandl.com/api/v1/datasets/ZILLOW/RZIP_MEDIANRENTALPRICE_ALLHOMES_%s.json" % (zipcode)
-    gd2 = json.loads(urllib2.urlopen(renturl).read())
+    gd2 = 0
     avgrent = -1
     try:
         gd2 = json.loads(urllib2.urlopen(renturl).read())
@@ -123,24 +123,29 @@ def findRentPrice(zipcode):
         print "Rent: $" + str(avgrent)
     except:
         print "Rent Not Available"
-    return findRentPriceHelper(avgrent)
+    return findPriceHelper(avgrent)
 
-def findRentPriceHelper(price):
+def findPriceHelper(price):
     if (price == -1):
-        return "Rent N/A"
+        return "N/A"
     else:
         return str(price)
 
 def findBuyPrice(zipcode):
     buyurl = "https://www.quandl.com/api/v1/datasets/ZILLOW/MZIP_MEDIANSOLDPRICE_ALLHOMES_%s.json" % (zipcode)
+    print buyurl
+    print "BUY IT \n\n\n\n\n"
+    gd1 = 0
+    avgbuy = -1
     try:
         gd1 = json.loads(urllib2.urlopen(buyurl).read())
         avgbuy = gd1['data'][0][1]
         print "Buy: $" + avgbuy
-        return avgbuy
     except:
-        return "n/a"
         print "BUY n/a"
+    return findPriceHelper(avgbuy)
+
+    
 
 if __name__ == "__main__":
 
