@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import urllib2, urllib, json,time
 
 key = "AIzaSyAcXE_nj31Hrj5EEhBz3vAXluEZ4ox-pLk"
-#token = "bMAwaXXybvZyuuRPNoNv"
+token = "bMAwaXXybvZyuuRPNoNv"
 nextPage = ""
 app = Flask(__name__)
 
@@ -115,7 +115,7 @@ def findNext20(token,latLong,keyword):
     return ltemp1
 
 def findRentPrice(zipcode):
-    renturl = "https://www.quandl.com/api/v1/datasets/ZILLOW/RZIP_MEDIANRENTALPRICE_ALLHOMES_%s.json" % (zipcode)
+    renturl = "https://www.quandl.com/api/v1/datasets/ZILLOW/RZIP_MEDIANRENTALPRICE_ALLHOMES_%s.json?auth_token=%s" % (zipcode,token)
     gd2 = 0
     avgrent = -1
     try:
@@ -133,7 +133,7 @@ def findPriceHelper(price):
         return str(price)
 
 def findBuyPrice(zipcode):
-    buyurl = "https://www.quandl.com/api/v1/datasets/ZILLOW/MZIP_MEDIANSOLDPRICE_ALLHOMES_%s.json" % (zipcode)
+    buyurl = "https://www.quandl.com/api/v1/datasets/ZILLOW/MZIP_MEDIANSOLDPRICE_ALLHOMES_%s.json?auth_token=%s" % (zipcode,token)
     gd1 = 0
     avgbuy = -1
     try:
