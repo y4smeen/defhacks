@@ -52,7 +52,7 @@ def findPlaces(latLong,nearlist):
         gd = json.loads(results) #dictionary
         ltemp = findFirst100(gd,latLong,keyword)
         for address in ltemp:
-            placeurl = "https://maps.googleapis.com/maps/api/geocode/json?address=%s" % (address)
+            placeurl = "https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s" % (address,key)
             request = urllib2.urlopen(placeurl)
             results = request.read()
             gd1 = json.loads(results) #dictionary
