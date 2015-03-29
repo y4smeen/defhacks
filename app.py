@@ -63,7 +63,7 @@ def findPlaces(latLong,nearlist):
             gd1 = json.loads(results) #dictionary
             shortzip = ""
             try:
-                shortzip = gd1['results'][0]['address_components'][8]['short_name']
+                shortzip = gd1['results'][0]['address_components'][8]['long_name']
                 zipcode.append(shortzip)
             except:
                 print "bad: " + address
