@@ -1,9 +1,8 @@
 from flask import Flask, render_template, request
-import urllib2, urllib, json
+import urllib2, urllib, json,time
 
 key = "AIzaSyDUiZxaQHftGIZ8CgOdF-V24EP1FLt4N1E"
-url = ""
-
+nextPage = ""
 app = Flask(__name__)
 
 # @app.route( "/" )
@@ -52,36 +51,72 @@ def findPlaces(latLong,nearlist):
     zipcode = []
     for keyword in nearlist:
         ltemp = []
-        googleurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s&key=%s&radius=1000&keyword=%s" % (latLong,key,keyword)
-        # print googleurl
+        googleurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=%s&key=%s&radius=2000&keyword=%s" % (latLong,key,keyword)
         request = urllib2.urlopen(googleurl)
         results = request.read()
         gd = json.loads(results) #dictionary
-        for place in gd['results']:
-            ltemp.append(str(place['geometry']['location']['lat']) + "," + str(place['geometry']['location']['lng']))
+        ltemp = findFirst100(gd,latLong,keyword)
         for address in ltemp:
             placeurl = "https://maps.googleapis.com/maps/api/geocode/json?address=%s" % (address)
             request = urllib2.urlopen(placeurl)
             results = request.read()
             gd1 = json.loads(results) #dictionary
-            shortzip = gd1['results'][0]['address_components'][8]['short_name']
-            zipcode.append(shortzip)
-
+            shortzip = ""
+            try:
+                shortzip = gd1['results'][0]['address_components'][8]['short_name']
+                zipcode.append(shortzip)
+            except:
+                print "bad: " + address
         l.append(ltemp)
+    print zipcode
     return findMost(zipcode);
 
 def findMost(zipcode):
     count = 0;
     savecount = 0;
     saveme = 0;
+    x = 0
     for i in zipcode:
-        for x in zipcode:
-            if i == x:
-                count+=1;
-        if count > savecount:
-            saveme = i
-        count = 0
+        while (x < len(zipcode)):
+            for x in zipcode:
+                if i == x:
+                    count+=1;
+                    zipcode.remove(i)
+            if count > savecount:
+                saveme = i
+            count = 0
+        x = 0
     return saveme
+
+def findFirst100(dict,latLong,keyword):
+    ltemp = []
+    for place in dict['results']:
+        ltemp.append(str(place['geometry']['location']['lat']) + "," + str(place['geometry']['location']['lng']))
+    try:
+        nextPage = dict['next_page_token']
+    except:
+        print "PAGE NOT FOUND 1"
+    for i in range(4):
+        try:
+            ltemp += findNext20(nextPage,latLong,keyword)
+        except:
+            break
+    return ltemp
+        
+def findNext20(token,latLong,keyword):
+    ltemp1 = []
+    googleurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=%s&key=%s" % (token,key)
+    time.sleep(2)
+    request = urllib2.urlopen(googleurl)
+    results = request.read()
+    gd = json.loads(results) #dictionary
+    try:
+        nextPage = gd['next_page_token']
+    except:
+        print "PAGE NOT FOUND 2"
+    for place in gd['results']:
+        ltemp1.append(str(place['geometry']['location']['lat']) + "," + str(place['geometry']['location']['lng']))
+    return ltemp1
 
 
 
