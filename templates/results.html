@@ -21,8 +21,13 @@ href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 {{ price }}
 -->
 <center>
-<div id="place"> {{ place }} </div>
-
+<div id="place"><h2>
+  You like <strong>{{ nearlist }}</strong><br><br>
+  You should live in {{ place }}<br><br>
+  Average Purchase Price: {{ buy }}<br><br>
+  Average Rental Price: {{ rent }}<br>
+  </h2></div>
+<br>
 <div id="mapholder"></div>
 
 <script>

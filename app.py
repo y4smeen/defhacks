@@ -18,7 +18,9 @@ def form():
         cityState = city
         latLong = geo_loc(cityState)
         place =  findPlaces(latLong,nearlist)
-        return render_template( "results.html",place = place )
+        buy = findBuyPrice(place)
+        rent = findRentPrice(place)
+        return render_template( "results.html", place=place, buy=buy, rent=rent, nearlist=near )
 
 @app.route( "/about" )
 def about():
@@ -61,7 +63,7 @@ def findPlaces(latLong,nearlist):
             except:
                 print "bad: " + address
         l.append(ltemp)
-    print zipcode
+    #print zipcode
     return findMost(zipcode);
 
 def findMost(zipcode):
@@ -95,7 +97,7 @@ def findFirst100(dict,latLong,keyword):
         except:
             break
     return ltemp
-        
+
 def findNext20(token,latLong,keyword):
     ltemp1 = []
     googleurl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=%s&key=%s" % (token,key)
@@ -111,7 +113,27 @@ def findNext20(token,latLong,keyword):
         ltemp1.append(str(place['geometry']['location']['lat']) + "," + str(place['geometry']['location']['lng']))
     return ltemp1
 
+def findRentPrice(zipcode):
+    renturl = "https://www.quandl.com/api/v1/datasets/ZILLOW/RZIP_MEDIANRENTALPRICE_ALLHOMES_%s.json" % (zipcode)
+    try:
+        gd = json.loads(urllib2.urlopen(renturl).read())
+        avgrent = gd['data'][0][1]
+        print "Rent: $" + avgrent
+        return avgrent
+    except:
+        return "RENT n/a"
+        print "RENT n/a"
 
+def findBuyPrice(zipcode):
+    buyurl = "https://www.quandl.com/api/v1/datasets/ZILLOW/MZIP_MEDIANSOLDPRICE_ALLHOMES_%s.json" % (zipcode)
+    try:
+        gd1 = json.loads(urllib2.urlopen(buyurl).read())
+        avgbuy = gd1['data'][0][1]
+        print "Buy: $" + avgbuy
+        return avgbuy
+    except:
+        return "n/a"
+        print "BUY n/a"
 
 if __name__ == "__main__":
 

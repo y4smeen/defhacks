@@ -5,32 +5,37 @@
 <form action="/" class="pure-form pure-form-aligned" method="POST">
 <fieldset>
 <div class="pure-control-group">
-  <label for="city">City</label>
-  <input class="pure-input-2-3" id="city" placeholder="New York"
-  name="city">
+  <label for="city">Location</label>
+  <input class="pure-input-2-3" id="city" placeholder="e.g. New York, NY"
+  name="city" required>
 </div>
-<!-- <div class="pure-control-group">
-  <label for="State">State</label>
-  <input class="pure-input-2-3" id="state" placeholder="NY"
-  name="state"> -->
 </div>
 <div class="pure-control-group">
   <label for="near">Near</label>
-  <input class="pure-input-2-3" id="near" placeholder="Starbucks,Pizza,Fitness"
-  name="near">
+  <input class="pure-input-2-3" id="near" placeholder="e.g. Starbucks,Pizza,Fitness"
+  name="near" required>
 </div>
-<!-- <div class="pure-control-group">
+<div class="pure-control-group">
+  Property Type
+  <label for="property" class="pure-radio">
+    <input id="property" type="radio" name="optionsRadios" value="buy" checked>
+    Buy
+  </label>
+  <label for="property" class="pure-radio">
+    <input id="property" type="radio" name="optionsRadios" value="rent">
+    Rent
+  </label>
+</div>
+<div class="pure-control-group">
   <label for="price">Price Limit</label>
-  <input class="pure-input-2-3" id="price" placeholder="1000000"
+  <input class="pure-input-2-3" id="price" placeholder="e.g. 500000"
   name="price">
-</div> -->
+</div>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
 <script type="text/javascript">
 var input1=document.getElementById('city');
-var input2=document.getElementById('state');
 var options={componentRestrictions: {country: 'us'}};
 new google.maps.places.Autocomplete(input1, options);
-new google.maps.places.Autocomplete(input2, options);
 </script>
 </center>
 <center>
