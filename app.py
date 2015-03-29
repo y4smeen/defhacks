@@ -5,13 +5,6 @@ key = "AIzaSyDUiZxaQHftGIZ8CgOdF-V24EP1FLt4N1E"
 nextPage = ""
 app = Flask(__name__)
 
-# @app.route( "/" )
-# def index():
-#     return render_template( "base.html")
-
-# @app.route( "/search" )
-# def robots():
-
 @app.route( "/", methods = ["GET", "POST"] )
 def form():
     if request.method == "GET":
