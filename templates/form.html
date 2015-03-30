@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <center>
-<h2>Search</h2>
+<h1>SEARCH</h1>
 <form action="/" class="pure-form pure-form-aligned" method="POST">
 <fieldset>
 <div class="pure-control-group">
@@ -16,6 +16,11 @@
   name="near" required>
 </div>
 <div class="pure-control-group">
+  <label for="price">Price Limit</label>
+  <input class="pure-input-2-3" id="price" placeholder="e.g. 500000"
+  name="price">
+</div>
+<div class="pure-control-group">
   Property Type
   <label for="property" class="pure-radio">
     <input id="property" type="radio" name="optionsRadios" value="buy" checked>
@@ -25,11 +30,6 @@
     <input id="property" type="radio" name="optionsRadios" value="rent">
     Rent
   </label>
-</div>
-<div class="pure-control-group">
-  <label for="price">Price Limit</label>
-  <input class="pure-input-2-3" id="price" placeholder="e.g. 500000"
-  name="price">
 </div>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
 <script type="text/javascript">

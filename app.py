@@ -23,6 +23,10 @@ def form():
         rent = findRentPrice(place)
         return render_template( "results.html", place=place, buy=buy, rent=rent, nearlist=near )
 
+@app.route("/contact")
+def contact():
+    return render_template( "contact.html" )
+
 @app.route( "/about" )
 def about():
     return render_template( "about.html" )
@@ -144,7 +148,7 @@ def findBuyPrice(zipcode):
         print "BUY n/a"
     return findPriceHelper(avgbuy)
 
-    
+
 
 if __name__ == "__main__":
 
