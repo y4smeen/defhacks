@@ -8,6 +8,6 @@ apartment that has a fitness studio around it.
 ## Team
 <ul>
   <li><a href="https://github.com/y4smeen">Yasmeen Roumie</a></li>
-  <li>Sammi Wu Leung</li>
+  <li><a href="https://github.com/sammiWL">Sammi Wu Leung</a></li>
 </ul>
 
